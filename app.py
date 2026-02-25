@@ -7,14 +7,17 @@ app = Flask(__name__)
 
 # Load model safely
 try:
-    model_path = os.path.join(os.getcwd(), "diabetes-prediction-rfc-model.pkl")
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(base_dir, "diabetes-prediction-rfc-model.pkl")
+
     with open(model_path, "rb") as f:
         classifier = pickle.load(f)
+
     print("Model loaded successfully")
+
 except Exception as e:
     print("Error loading model:", e)
     classifier = None
-
 
 @app.route('/')
 def home():
