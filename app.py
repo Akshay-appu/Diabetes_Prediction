@@ -14,7 +14,7 @@ classifier = None
 
 try:
     with open(model_path, "rb") as f:
-        classifier = pickle.load(f)
+    sc, classifier = pickle.load(f)
     print("✅ Model loaded successfully")
 
 except Exception as e:
@@ -44,7 +44,8 @@ def predict():
         age = int(request.form['age'])
 
         data = np.array([[preg, glucose, bp, st, insulin, bmi, dpf, age]])
-        prediction = classifier.predict(data)
+        data = sc.transform(data)
+        my_prediction = classifier.predict(data)
 
         return render_template('result.html', prediction=prediction[0])
 
